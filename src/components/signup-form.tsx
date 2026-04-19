@@ -15,6 +15,12 @@ import * as z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupFormSchema } from "@/src/config/form/auth";
+import * as authApi from "../services/auth.service";
+import { SignupIf } from "@/src/types/services/auth.types";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { MESSAGES } from "../constants/messages";
+import { VERIFY_PATH } from "../constants/endpoints";
 
 export function SignupForm({
   className,
@@ -30,8 +36,23 @@ export function SignupForm({
     },
     mode: "onTouched",
   });
+  const router = useRouter();
 
-  const onSubmit = () => {};
+  const onSubmit = async (data: SignupIf) => {
+    try {
+      const { identifier } = data;
+
+      const res = await authApi.signup(data);
+      toast.success(MESSAGES[res.data.code as keyof typeof MESSAGES]);
+      router.push(`/${VERIFY_PATH}?contact=${encodeURI(identifier)}`);
+    } catch (error: any) {
+      toast.error(
+        MESSAGES[error.data.code as keyof typeof MESSAGES] ||
+          MESSAGES.DEFAULT_MESSAGE,
+      );
+      console.log("Signup Error: ", error);
+    }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

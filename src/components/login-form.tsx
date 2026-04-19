@@ -15,6 +15,12 @@ import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginFormSchema } from "@/src/config/form/auth";
+import * as authApi from "../services/auth.service";
+import { toast } from "sonner";
+import { MESSAGES } from "../constants/messages";
+import { LoginIf } from "../types/services/auth.types";
+import { useRouter } from "next/navigation";
+import { HOME_PATH } from "../constants/endpoints";
 
 export function LoginForm({
   className,
@@ -28,8 +34,22 @@ export function LoginForm({
     },
     mode: "onTouched",
   });
+  const router = useRouter();
 
-  const onSubmit = () => {};
+  const onSubmit = async (data: LoginIf) => {
+    try {
+      const res = await authApi.login(data);
+      toast.success(MESSAGES[res.data.code as keyof typeof MESSAGES]);
+      router.push(HOME_PATH);
+      console.log("sss");
+    } catch (error: any) {
+      toast.error(
+        MESSAGES[error.data?.code as keyof typeof MESSAGES] ||
+          MESSAGES.DEFAULT_MESSAGE,
+      );
+      console.log("Login Error: ", error);
+    }
+  };
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
