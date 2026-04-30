@@ -4,6 +4,7 @@ export const AUTH_API = {
   RESEND_VERIFICATION: "/api/auth/resend-verification",
   VERIFY_EMAIL: "/api/auth/verify-email",
   VERIFY_PHONE: "/api/auth/verify-phone",
+  PROFILE: "/api/auth/profile",
 };
 
 export const FEED_API = {

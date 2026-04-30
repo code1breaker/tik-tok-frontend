@@ -15,7 +15,7 @@ import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginFormSchema } from "@/src/config/form/auth";
-import * as authApi from "../services/auth.service";
+import * as authApi from "../services/auth/auth.client";
 import { toast } from "sonner";
 import { MESSAGES } from "../constants/messages";
 import { LoginIf } from "../types/services/auth.types";

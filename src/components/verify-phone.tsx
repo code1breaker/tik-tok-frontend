@@ -5,7 +5,7 @@ import {
 } from "@/src/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Phone } from "lucide-react";
-import * as authApi from "../services/auth.service";
+import * as authApi from "../services/auth/auth.client";
 import { Button } from "./ui/button";
 import {
   Card,

@@ -15,7 +15,7 @@ import * as z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupFormSchema } from "@/src/config/form/auth";
-import * as authApi from "../services/auth.service";
+import * as authApi from "../services/auth/auth.client";
 import { SignupIf } from "@/src/types/services/auth.types";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";

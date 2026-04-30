@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import VerifyEmail from "@/src/components/verify-email";
 import VerifyPhone from "@/src/components/verify-phone";
 import { useEffect } from "react";
-import * as authApi from "../../../services/auth.service";
+import * as authApi from "../../../services/auth/auth.client";
 import { toast } from "sonner";
 import { MESSAGES } from "@/src/constants/messages";
 import { HOME_PATH } from "@/src/constants/endpoints";

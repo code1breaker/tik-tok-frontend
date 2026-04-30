@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
 } from "@/src/components/ui/carousel";
 import { useEffect, useState } from "react";
-import { feed } from "../services/feed.service";
+import { feed } from "../services/feed/feed.client";
 import { UseEmblaCarouselType } from "embla-carousel-react";
 
 export interface SlidesIf {

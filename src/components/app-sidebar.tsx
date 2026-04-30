@@ -12,38 +12,62 @@ import {
   SidebarRail,
 } from "@/src/components/ui/sidebar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  Activity,
+  Compass,
+  Home,
+  Send,
+  SquarePlus,
+  UserRound,
+  UserRoundPlus,
+  UsersRound,
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
-const data = {
-  navMain: [
+const sidenav = {
+  menu: [
     {
-      items: [
+      submenu: [
         {
           title: "For You",
           url: "/for-you",
+          icon: <Home />,
         },
         {
           title: "Explore",
           url: "/explore",
+          icon: <Compass />,
         },
         {
           title: "Following",
           url: "/following",
+          icon: <UserRoundPlus />,
         },
         {
           title: "Friends",
           url: "/friends",
+          icon: <UsersRound />,
         },
         {
           title: "Upload",
           url: "/upload",
+          icon: <SquarePlus />,
         },
         {
           title: "Activity",
           url: "/activity",
+          icon: <Activity />,
         },
         {
           title: "Messages",
           url: "/messages",
+          icon: <Send />,
+        },
+        {
+          title: "Profile",
+          url: "/profile",
+          icon: <UserRound />,
         },
       ],
     },
@@ -51,6 +75,8 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname();
+  console.log(pathname, "pathname");
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -58,16 +84,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SearchForm />
       </SidebarHeader>
       <SidebarContent>
-        {data.navMain.map((item, idx) => (
-          <SidebarMenu key={idx}>
-            {item.items.map((item) => (
+        {sidenav.menu.map((item, idx) => (
+          <SidebarMenu key={idx} className="px-4 py-2">
+            {item.submenu.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton
                   asChild
-                  variant={"default"}
-                  // isActive={item?.isActive}
+                  variant={"ghost"}
+                  isActive={pathname === item.url}
                 >
-                  <Link href={item.url}>{item.title}</Link>
+                  <Link href={item.url}>
+                    {item?.icon}
+                    {item.title}
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}

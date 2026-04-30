@@ -8,7 +8,7 @@ import {
 } from "./ui/card";
 import { MailCheck } from "lucide-react";
 import { Button } from "./ui/button";
-import * as authApi from "../services/auth.service";
+import * as authApi from "../services/auth/auth.client";
 import { toast } from "sonner";
 import { MESSAGES } from "../constants/messages";
 
