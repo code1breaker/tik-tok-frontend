@@ -1,29 +1,20 @@
 import axios from "axios";
 import env from "../env";
+import { getSession } from "next-auth/react";
 
 const clientApi = axios.create({
   baseURL: env.API_BASE_URL,
   withCredentials: true,
 });
 
-let isRefreshing = false;
-let failedQueue = [];
-
-const processedQueue = (error) => {
-  failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve();
-    }
-  });
-
-  failedQueue = [];
-};
-
 clientApi.interceptors.request.use(async (config) => {
   console.log("Api Url: ", config.url);
   console.log("Api Params: ", config.params);
+
+  const session = await getSession();
+  const { accessToken } = session || {};
+
+  config.headers.Authorization = `Bearer ${accessToken}`;
   return config;
 });
 
@@ -33,28 +24,6 @@ clientApi.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const originalRequest = error.config;
-    if (error.status === 401 && !originalRequest._retry) {
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        }).then(() => clientApi(originalRequest));
-      }
-
-      originalRequest._retry = true;
-      isRefreshing = true;
-
-      try {
-        await clientApi.get("/api/auth/refresh-token");
-        processedQueue(null);
-        return clientApi(originalRequest);
-      } catch (error) {
-        processedQueue(error);
-        return Promise.reject(error);
-      } finally {
-        isRefreshing = true;
-      }
-    }
     return Promise.reject(error.response);
   },
 );

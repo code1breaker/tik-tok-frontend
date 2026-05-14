@@ -8,9 +8,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/src/components/ui/carousel";
+import { UseEmblaCarouselType } from "embla-carousel-react";
 import { useEffect, useState } from "react";
 import { feed } from "../services/feed/feed.client";
-import { UseEmblaCarouselType } from "embla-carousel-react";
 
 export interface SlidesIf {
   videoUrl: string;

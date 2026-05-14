@@ -10,3 +10,7 @@ export const AUTH_API = {
 export const FEED_API = {
   FEED: "/api/feed",
 };
+
+export const USER_API = {
+  USER: "/api/user",
+};

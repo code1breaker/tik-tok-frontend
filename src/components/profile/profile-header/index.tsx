@@ -3,29 +3,43 @@ import { ProfileAvatar } from "./avatar";
 import { ProfileBio } from "./bio";
 import ProfileStats from "./stats";
 
-export interface ProfileIf {
+export interface ProfileDataIf {
   username: string;
   avatar: string;
-  followers: number;
+  photoUrl: string;
+  follower: number;
   following: number;
   likes: number;
   bio: string;
 }
-export default function ProfileHeader({ profile }: { profile: ProfileIf }) {
+export default function ProfileHeader({
+  profileData,
+}: {
+  profileData: ProfileDataIf;
+}) {
+  const {
+    username,
+    photoUrl: avatar,
+    follower,
+    following,
+    likes = 60,
+    bio,
+  } = profileData || {};
+
   return (
     <div className="flex gap-6 items-center">
-      <ProfileAvatar src={profile.avatar} />
+      <ProfileAvatar src={avatar} />
 
       <div className="flex flex-col gap-3">
-        <h2 className="text-xl font-semibold">@{profile.username}</h2>
+        <h2 className="text-xl font-semibold">@{username}</h2>
 
         <ProfileStats
-          followers={profile.followers}
-          following={profile.following}
-          likes={profile.likes}
+          followers={follower}
+          following={following}
+          likes={likes}
         />
 
-        <ProfileBio bio={profile.bio} />
+        <ProfileBio bio={bio} />
       </div>
     </div>
   );

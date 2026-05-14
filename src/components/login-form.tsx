@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/src/lib/utils";
 import { Button } from "@/src/components/ui/button";
 import {
   Field,
@@ -11,16 +10,16 @@ import {
   FieldSeparator,
 } from "@/src/components/ui/field";
 import { Input } from "@/src/components/ui/input";
-import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { loginFormSchema } from "@/src/config/form/auth";
-import * as authApi from "../services/auth/auth.client";
+import { cn } from "@/src/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import * as z from "zod";
+import { HOME_PATH } from "../constants/endpoints";
 import { MESSAGES } from "../constants/messages";
 import { LoginIf } from "../types/services/auth.types";
-import { useRouter } from "next/navigation";
-import { HOME_PATH } from "../constants/endpoints";
 
 export function LoginForm({
   className,
@@ -34,20 +33,13 @@ export function LoginForm({
     },
     mode: "onTouched",
   });
-  const router = useRouter();
 
   const onSubmit = async (data: LoginIf) => {
     try {
-      const res = await authApi.login(data);
-      toast.success(MESSAGES[res.data.code as keyof typeof MESSAGES]);
-      router.push(HOME_PATH);
-      console.log("sss");
+      await signIn("credentials", { ...data, redirectTo: HOME_PATH });
     } catch (error: any) {
-      toast.error(
-        MESSAGES[error.data?.code as keyof typeof MESSAGES] ||
-          MESSAGES.DEFAULT_MESSAGE,
-      );
       console.log("Login Error: ", error);
+      toast.error(MESSAGES.DEFAULT_MESSAGE);
     }
   };
   return (

@@ -1,25 +1,23 @@
 "use client";
+import { CategoryTy, FilterTy } from "@/src/types/components/profile.types";
 import { useState } from "react";
+import ProfileCategory from "./category";
 import ProfileFilters from "./filters";
-import ProfileTabs from "./tabs";
-import { Card, CardContent } from "../../ui/card";
+import VideoCardList from "./video-card-list";
 
 export default function ProfileContent() {
-  const [tab, setTab] = useState<"videos" | "likes" | "favorites">("videos");
+  const [category, setCategory] = useState<CategoryTy>("videos");
+  const [filter, setFilter] = useState<FilterTy>("latest");
 
   return (
     <div>
       <div className="flex justify-between items-center space-y-5">
-        <ProfileTabs tab={tab} setTab={setTab} />
-        <ProfileFilters />
+        <ProfileCategory category={category} setCategory={setCategory} />
+        <ProfileFilters filter={filter} setFilter={setFilter} />
       </div>
 
       <div className="grid grid-cols-5 gap-4">
-        {[1, 2, 3, 4, 5, 6].map((item) => (
-          <Card key={item} className="h-72 rounded-xs">
-            <CardContent>card {item}</CardContent>
-          </Card>
-        ))}
+        <VideoCardList filter={filter} />
       </div>
     </div>
   );

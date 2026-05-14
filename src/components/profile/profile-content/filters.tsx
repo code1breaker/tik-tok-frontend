@@ -1,18 +1,24 @@
-import { Button } from "../../ui/button";
-import { ButtonGroup } from "../../ui/button-group";
+import { Tabs, TabsList, TabsTrigger } from "@/src/components/ui/tabs";
+import { FilterTy } from "@/src/types/components/profile.types";
 
-export default function ProfileFilters() {
+export default function ProfileFilters({
+  filter,
+  setFilter,
+}: {
+  filter: FilterTy;
+  setFilter: (value: FilterTy) => void;
+}) {
   return (
-    <ButtonGroup>
-      <Button variant="outline" size="sm">
-        Latest
-      </Button>
-      <Button variant="outline" size="sm">
-        Popular
-      </Button>
-      <Button variant="outline" size="sm">
-        Oldest
-      </Button>
-    </ButtonGroup>
+    <Tabs
+      value={filter}
+      onValueChange={(v) => setFilter(v as FilterTy)}
+      defaultValue="latest"
+    >
+      <TabsList>
+        <TabsTrigger value="latest">Latest</TabsTrigger>
+        <TabsTrigger value="popular">Popular</TabsTrigger>
+        <TabsTrigger value="oldest">Oldest</TabsTrigger>
+      </TabsList>
+    </Tabs>
   );
 }
