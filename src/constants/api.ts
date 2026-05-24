@@ -14,3 +14,12 @@ export const FEED_API = {
 export const USER_API = {
   USER: "/api/user",
 };
+
+export const UPLOAD_API = {
+  SIGNATURE: "/api/upload/signature",
+  DELETE_VIDEO: "/api/upload/delete",
+};
+
+export const VIDEO_API = {
+  VIDEO: "/api/video/upload",
+};

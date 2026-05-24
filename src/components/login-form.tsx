@@ -108,7 +108,7 @@ export function LoginForm({
             Continue with Google
           </Button>
           <FieldDescription className="text-center">
-            Don&apos;t have an account?{" "}
+            Don't have an account?{" "}
             <a href="/signup" className="underline underline-offset-4">
               Sign up
             </a>
