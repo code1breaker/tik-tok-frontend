@@ -3,7 +3,7 @@ import convertUrlToFile from "@/src/helpers/upload/convertUrlToFile";
 import { useAppSelector } from "@/src/hooks/store";
 import { resetUpload } from "@/src/lib/store/uploadSlice";
 import * as uploadApi from "@/src/services/upload/upload.client";
-import * as videoApi from "@/src/services/video/video.client";
+import * as postApi from "@/src/services/post/post.client";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
@@ -21,7 +21,7 @@ export default function UploadFormAction() {
 
   const isPostNow = form.settings.postTiming === "now";
   const {
-    videoId,
+    postId,
     details: { description, coverImgUrl },
     settings: { interaction, visibility },
   } = form;
@@ -59,9 +59,9 @@ export default function UploadFormAction() {
         // interaction,
       };
 
-      const response = await videoApi.updateUploadVideo({
+      const response = await postApi.updatePost({
         body: uploadBody,
-        videoId,
+        postId,
       });
 
       toast.success("Video uploaded successfully");

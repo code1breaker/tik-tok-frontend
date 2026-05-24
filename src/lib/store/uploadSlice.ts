@@ -69,7 +69,7 @@ export interface UploadedFileStateIf {
 }
 
 export interface UploadFormIf {
-  videoId: string;
+  postId: string;
   details: {
     coverImgUrl: string;
     description: string;
@@ -105,7 +105,7 @@ const initialState: UploadStateIf = {
     total: "",
   },
   form: {
-    videoId: "",
+    postId: "",
     details: {
       coverImgUrl: "",
       description: "",
@@ -143,11 +143,11 @@ export const uploadSlice = createSlice({
 
     setUploadForm: (state, action) => {
       const { payload } = action;
-      const { videoId, details = {}, settings = {} } = payload;
+      const { postId, details = {}, settings = {} } = payload;
       const { interaction, ...restSettings } = settings;
 
       state.form = {
-        videoId,
+        postId,
         details: { ...state.form.details, ...details },
         settings: { ...state.form.settings, ...restSettings },
       };

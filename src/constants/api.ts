@@ -8,18 +8,19 @@ export const AUTH_API = {
 };
 
 export const FEED_API = {
-  FEED: "/api/feed",
+  FEED: "/api/feeds",
 };
 
 export const USER_API = {
-  USER: "/api/user",
+  USER: "/api/users",
+  POST: "/api/users",
 };
 
 export const UPLOAD_API = {
-  SIGNATURE: "/api/upload/signature",
-  DELETE_VIDEO: "/api/upload/delete",
+  SIGNATURE: "/api/uploads/signature",
+  DELETE_VIDEO: "/api/uploads/delete",
 };
 
-export const VIDEO_API = {
-  VIDEO: "/api/video/upload",
+export const POST_API = {
+  POST: "/api/posts",
 };

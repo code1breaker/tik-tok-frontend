@@ -8,10 +8,10 @@ export interface VideoCardIf {
   };
 }
 
-export default function VideoCard({ feed }: { feed: VideoCardIf[] }) {
+export default function VideoCard({ posts }: { posts: VideoCardIf[] }) {
   return (
     <>
-      {feed?.map((item) => (
+      {posts?.map((item) => (
         <Card key={item?._id} className="h-72 rounded-xs">
           <CardContent className="h-full flex aspect-square items-center justify-center p-0">
             <video src={item?.videoUrl} />
