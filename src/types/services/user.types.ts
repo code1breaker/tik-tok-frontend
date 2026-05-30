@@ -1,11 +1,15 @@
 import { FilterTy } from "../components/profile.types";
-export interface GetProfileByIdIf {
-  userId: string | number;
+export interface GetProfileByUsernameIf {
+  username: string | number;
 }
 
 export interface GetUserPostsIf {
-  userId: string;
+  username: string;
   sort?: FilterTy;
   page?: number;
   limit?: number;
+}
+
+export interface FollowUserIf {
+  userId: string;
 }

@@ -14,6 +14,7 @@ export const FEED_API = {
 export const USER_API = {
   USER: "/api/users",
   POST: "/api/users",
+  FOLLOW: "/api/users"
 };
 
 export const UPLOAD_API = {

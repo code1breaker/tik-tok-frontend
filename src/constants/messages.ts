@@ -10,4 +10,6 @@ export const MESSAGES = {
   VERIFY_PHONE_RESEND: "OTP sent",
   INVALID_CREDENTIALS: "Invalid credentials",
   LOGIN_SUCCESS: "Login successfully",
+  FOLLOW_REQUEST_SUCCESS: "Follow request sent successfully",
+  UNFOLLOW_SUCCESS: "Unfollow request sent successfully",
 };

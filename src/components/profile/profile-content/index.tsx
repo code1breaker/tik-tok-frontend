@@ -16,9 +16,7 @@ export default function ProfileContent() {
         <ProfileFilters filter={filter} setFilter={setFilter} />
       </div>
 
-      <div className="grid grid-cols-5 gap-4">
-        <VideoCardList filter={filter} />
-      </div>
+      <VideoCardList filter={filter} />
     </div>
   );
 }
