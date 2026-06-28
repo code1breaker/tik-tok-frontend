@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import uploadReducer from "../store/uploadSlice";
+import uploadReducer from "./upload-slice";
+import videoCommentReducer from "./videoCommentSlice";
+import videoDetailsReducer from "./video-details-slice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       upload: uploadReducer,
+      videoDetails: videoDetailsReducer,
+      videoComment: videoCommentReducer,
     },
   });
 };

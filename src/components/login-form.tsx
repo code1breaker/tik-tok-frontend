@@ -39,7 +39,10 @@ export function LoginForm({
       await signIn("credentials", { ...data, redirectTo: HOME_PATH });
     } catch (error: any) {
       console.log("Login Error: ", error);
-      toast.error(MESSAGES.DEFAULT_MESSAGE);
+      toast.error(
+        MESSAGES[error.data.code as keyof typeof MESSAGES] ||
+          MESSAGES.DEFAULT_MESSAGE,
+      );
     }
   };
   return (

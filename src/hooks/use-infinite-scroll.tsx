@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { UseInfiniteScrollProps } from "../types/hooks/useInfiniteScroll";
+import { UseInfiniteScrollProps } from "../types/hooks/use-infinite-scroll.types";
 
 const useInfiniteScroll = <T,>({
   callback,
@@ -28,12 +28,21 @@ const useInfiniteScroll = <T,>({
     }
   };
 
+  const loadData = async () => {
+    const resData = await fetchData({ page: 1 });
+    setData([...resData]);
+  };
+
   const loadMoreData = async () => {
     if (!hasMoreData) return;
     const nextPage = pageNumber + 1;
     const resData = await fetchData({ page: nextPage });
     setData((prev) => [...prev, ...resData]);
     setPageNumber(nextPage);
+  };
+
+  const refresh = () => {
+    loadData();
   };
 
   const handleScroll = () => {
@@ -47,18 +56,13 @@ const useInfiniteScroll = <T,>({
     return () => {
       document.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [hasMoreData]);
 
   useEffect(() => {
-    const loadData = async () => {
-      const resData = await fetchData({ page: 1 });
-      setData(resData);
-    };
-
     loadData();
   }, [...deps]);
 
-  return { data, setData, loading, error };
+  return { data, setData, loading, error, refresh };
 };
 
 export default useInfiniteScroll;

@@ -8,6 +8,8 @@ export interface GetUserPostsIf {
   sort?: FilterTy;
   page?: number;
   limit?: number;
+  postId?: string;
+  direction?: "prev" | "next";
 }
 
 export interface FollowUserIf {

@@ -60,6 +60,8 @@ export interface VideoCardItemIf {
     views: number;
   };
 }
-export interface VideoCardIf {
-  videos: VideoCardItemIf[];
+export interface VideoCardPropIf {
+  video: VideoCardItemIf;
+  className?: string;
+  children?: React.ReactNode;
 }

@@ -1,17 +1,16 @@
 import { MESSAGES } from "@/src/constants/messages";
 import convertUrlToFile from "@/src/helpers/upload/convertUrlToFile";
-import { useAppSelector } from "@/src/hooks/store";
-import { resetUpload } from "@/src/lib/store/uploadSlice";
+import { useAppDispatch, useAppSelector } from "@/src/hooks/store";
+import { resetUpload } from "@/src/lib/store/upload-slice";
 import * as uploadApi from "@/src/services/upload/upload.client";
 import * as postApi from "@/src/services/post/post.client";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 
 export default function UploadFormAction() {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const form = useAppSelector((state) => state.upload.form);
   const file = useAppSelector((state) => state.upload.file);
   const uploadedFile = useAppSelector((state) => state.upload.uploadedFile);
@@ -66,6 +65,7 @@ export default function UploadFormAction() {
 
       toast.success("Video uploaded successfully");
       router.push("/profile");
+      dispatch(resetUpload());
     } catch (error: any) {
       console.log("Post Now Error: ", error);
       toast.error(

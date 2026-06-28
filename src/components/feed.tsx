@@ -3,81 +3,135 @@
 import { Card, CardContent } from "@/src/components/ui/card";
 import {
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from "@/src/components/ui/carousel";
-import { UseEmblaCarouselType } from "embla-carousel-react";
-import { useEffect, useState } from "react";
-import { feed } from "../services/feed/feed.client";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { FeedItemIf, FeedPropsIf } from "../types/components/common/feed.types";
+import VideoPlayer from "./common/video-player";
 
-export interface SlidesIf {
-  videoUrl: string;
-}
-
-export default function Feed() {
-  const [slides, setSlides] = useState<SlidesIf[]>([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [api, setApi] = useState<UseEmblaCarouselType[1] | null>(null);
-
-  const fetchFeed = async ({ pageNumber }: { pageNumber: number }) => {
-    try {
-      if (!hasMore) return;
-
-      const res = await feed({ page: pageNumber, limit: 2 });
-
-      if (!res.data.data.length) {
-        setHasMore(false);
-        return;
-      }
-
-      setHasMore(true);
-      setSlides((prev) => [...prev, ...res.data.data]);
-    } catch (error) {
-      console.log("Fetch Feed Error: ", error);
-    }
-  };
+export default function Feed<T extends FeedItemIf>({
+  data,
+  onSelect,
+  startIndex = 0,
+  loadMoreData,
+  isVolumeEnable = true,
+}: FeedPropsIf<T>) {
+  const [api, setApi] = useState<CarouselApi | null>(null);
+  const prevLengthRef = useRef(data?.length);
+  const isLoadingRef = useRef(false);
+  const [currentIndex, setCurrentIndex] = useState(startIndex);
 
   const handleSelect = () => {
     if (!api) return;
-
-    const index = api.selectedScrollSnap();
-    if (slides.length - 1 !== index) return;
-    setPage((prev) => prev + 1);
+    const selectedIndex = api.selectedScrollSnap();
+    setCurrentIndex(selectedIndex);
+    onSelect?.(selectedIndex);
   };
 
-  useEffect(() => {
-    fetchFeed({ pageNumber: page });
-  }, [page]);
+  const handleSettle = async () => {
+    if (!api || !loadMoreData || isLoadingRef.current) return;
+
+    const firstIndex = 0;
+    const lastIndex = api.scrollSnapList().length - 1;
+    const selectedIndex = api.selectedScrollSnap();
+
+    if (selectedIndex === firstIndex) {
+      isLoadingRef.current = true;
+      try {
+        await loadMoreData({ direction: "prev" });
+      } finally {
+        isLoadingRef.current = false;
+      }
+      return;
+    }
+
+    if (selectedIndex === lastIndex) {
+      isLoadingRef.current = true;
+      try {
+        await loadMoreData({ direction: "next" });
+      } finally {
+        isLoadingRef.current = false;
+      }
+    }
+  };
+
+  useLayoutEffect(() => {
+    if (!api) return;
+
+    const currentLength = data?.length;
+    const oldLength = prevLengthRef.current;
+
+    if (currentLength > oldLength) {
+      const addedCount = currentLength - oldLength;
+      const selectedIndex = api.selectedScrollSnap();
+
+      if (selectedIndex === 0) {
+        api.reInit();
+        api.scrollTo(addedCount, true);
+      } else {
+        api.reInit();
+      }
+    }
+
+    prevLengthRef.current = currentLength;
+  }, [data, api]);
 
   useEffect(() => {
     if (!api) return;
+
     api.on("select", handleSelect);
+    api.on("settle", handleSettle);
 
     return () => {
       api.off("select", handleSelect);
+      api.off("settle", handleSettle);
     };
-  }, [api, handleSelect, page]);
+  }, [api, handleSelect, handleSettle]);
 
   return (
     <Carousel
-      opts={{}}
+      opts={{
+        startIndex,
+        duration: 35,
+        watchSlides: true,
+      }}
       setApi={setApi}
       className="w-full h-full"
       orientation="vertical"
     >
       <CarouselContent className="w-md h-full">
-        {slides?.map((slide, index) => (
-          <CarouselItem key={index} className="">
-            <Card className="h-full">
-              <CardContent className="h-full flex aspect-square items-center justify-center p-0">
-                <video src={slide?.videoUrl} />
-              </CardContent>
-            </Card>
-          </CarouselItem>
-        ))}
+        {data?.map((item, idx) => {
+          const isActive = currentIndex === idx;
+          return (
+            <CarouselItem key={item._id} className="">
+              <Card className="h-full bg-black p-0">
+                <CardContent className="flex justify-center items-center h-full p-0 relative">
+                  {/* Thumbnail */}
+                  <div
+                    className={`w-full h-full bg-center bg-contain bg-no-repeat absolute top-0 right-0`}
+                    style={{
+                      backgroundImage: `url(${item.thumbnail})`,
+                    }}
+                  />
+                  {/* Video */}
+
+                  {isActive && (
+                    <div className="absolute right-0">
+                      <VideoPlayer
+                        src={item.videoUrl}
+                        isVolumeEnable={isVolumeEnable}
+                      />
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </CarouselItem>
+          );
+        })}
       </CarouselContent>
       <CarouselPrevious className="top-[46%] left-auto right-0 -translate-y-1/2" />
       <CarouselNext className="top-[54%] left-auto right-0 -translate-y-1/2" />

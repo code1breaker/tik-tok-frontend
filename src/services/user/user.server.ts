@@ -18,3 +18,18 @@ export const getUserPosts = async (args: GetUserPostsIf) => {
   const res = await serverApi.get(url);
   return res;
 };
+
+export const getUserPostsById = async (args: GetUserPostsIf) => {
+  const { username, postId } = args;
+  const url = `${USER_API.POST}/${username}/posts/${postId}`;
+  const res = await serverApi.get(url);
+  return res;
+};
+
+export const getUserPostsByDirection = async (args: GetUserPostsIf) => {
+  const { username, direction, postId, page, limit } = args;
+  const params = { page, limit };
+  const url = `${USER_API.POST}/${username}/posts/${postId}/${direction}`;
+  const res = await serverApi.get(url, { params });
+  return res;
+};

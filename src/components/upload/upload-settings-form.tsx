@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { setUploadForm } from "@/src/lib/store/uploadSlice";
+import { setUploadForm } from "@/src/lib/store/upload-slice";
 
 export default function UploadSettingsForm() {
   const dispatch = useAppDispatch();

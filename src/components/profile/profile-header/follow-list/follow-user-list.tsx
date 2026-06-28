@@ -7,7 +7,7 @@ import {
   OnFollowChangeIf,
 } from "@/src/types/components/profile.types";
 import { useSession } from "next-auth/react";
-import FollowUserRow from "./FollowUserRow";
+import FollowUserRow from "./follow-user-row";
 
 export const fetcherMap = {
   follower: getFollowers,

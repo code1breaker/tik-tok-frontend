@@ -11,6 +11,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           email: user.email,
           fullname: user.fullname,
           username: user.username,
+          photoUrl: user.photoUrl,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
           expiresAt: user.expiresAt,
@@ -32,6 +33,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         fullname: token.fullname,
         username: token.username,
         email: token.email,
+        photoUrl: token.photoUrl,
       };
 
       session.accessToken = token.accessToken;

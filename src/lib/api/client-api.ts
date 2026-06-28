@@ -8,8 +8,8 @@ const clientApi = axios.create({
 });
 
 clientApi.interceptors.request.use(async (config) => {
-  console.log("Api Url: ", config.url);
-  console.log("Api Params: ", config.params);
+  // console.log("Api Url: ", config.url);
+  // console.log("Api Params: ", config.params);
 
   const session = await getSession();
   const { accessToken } = session || {};

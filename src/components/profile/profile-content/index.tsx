@@ -4,6 +4,7 @@ import { useState } from "react";
 import ProfileCategory from "./category";
 import ProfileFilters from "./filters";
 import VideoCardList from "./video-card-list";
+import VideoCard from "./video-card";
 
 export default function ProfileContent() {
   const [category, setCategory] = useState<CategoryTy>("videos");
@@ -16,7 +17,12 @@ export default function ProfileContent() {
         <ProfileFilters filter={filter} setFilter={setFilter} />
       </div>
 
-      <VideoCardList filter={filter} />
+      <VideoCardList
+        filter={filter}
+        renderItem={({ video }) => (
+          <VideoCard className="h-72" key={video._id} video={video} />
+        )}
+      />
     </div>
   );
 }

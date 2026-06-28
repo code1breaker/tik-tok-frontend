@@ -1,4 +1,4 @@
-import { setUploadForm } from "@/src/lib/store/uploadSlice";
+import { setUploadForm } from "@/src/lib/store/upload-slice";
 import { Card, CardContent } from "../ui/card";
 import { Field, FieldLabel } from "../ui/field";
 import {

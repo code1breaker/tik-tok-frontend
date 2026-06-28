@@ -4,13 +4,19 @@ import { ProfileBio } from "./bio";
 import ProfileStats from "./stats";
 
 export interface ProfileDataIf {
+  _id: string;
   username: string;
+  fullname: string;
   avatar: string;
   photoUrl: string;
   follower: number;
   following: number;
   likes: number;
   bio: string;
+  relationship?: {
+    isFollowing: boolean;
+    requestStatus: string;
+  };
 }
 export default function ProfileHeader({
   profileData,

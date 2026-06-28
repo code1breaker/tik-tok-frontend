@@ -14,7 +14,7 @@ export const FEED_API = {
 export const USER_API = {
   USER: "/api/users",
   POST: "/api/users",
-  FOLLOW: "/api/users"
+  FOLLOW: "/api/users",
 };
 
 export const UPLOAD_API = {
@@ -24,4 +24,9 @@ export const UPLOAD_API = {
 
 export const POST_API = {
   POST: "/api/posts",
+  COMMENT: "/api/posts",
+};
+
+export const COMMENT_API = {
+  COMMENT: "/api/comments",
 };

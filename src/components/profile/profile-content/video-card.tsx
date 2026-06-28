@@ -1,29 +1,56 @@
 import { Card, CardContent } from "@/src/components/ui/card";
+import useMediaOrientation from "@/src/hooks/use-media-orientation";
 import {
-  VideoCardIf,
   VideoCardItemIf,
+  VideoCardPropIf,
 } from "@/src/types/components/profile.types";
 import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 
-export default function VideoCard({ videos }: VideoCardIf) {
+export default function VideoCard({
+  video,
+  className,
+  children,
+}: VideoCardPropIf) {
   const router = useRouter();
   const params = useParams();
+  const [isMouseEnter, setIsMouseEnter] = useState(false);
+  const { imageOrientation } = useMediaOrientation({
+    imgSrc: video?.thumbnail,
+  });
   const username = params.username as string;
 
-  const handleClick = (item: VideoCardItemIf) => {
-    router.push(`/@${username}/video/${item._id}`);
+  const handleClick = (video: VideoCardItemIf) => {
+    router.push(`/@${username}/video/${video._id}`);
   };
+
   return (
-    <>
-      {videos?.map((item) => (
-        <Card key={item?._id} className="h-72 rounded-xs">
-          <CardContent className="h-full flex aspect-square items-center justify-center p-0">
-            <div className="cursor-pointer" onClick={() => handleClick(item)}>
-              <video src={item?.videoUrl} poster={item?.thumbnail} />
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </>
+    <Card key={video?._id} className={`rounded-xs relative p-0 ${className}`}>
+      <CardContent className="h-full flex aspect-square items-center justify-center p-0">
+        <div
+          className="flex justify-center items-center cursor-pointer w-full h-full relative"
+          onClick={() => handleClick(video)}
+          onMouseEnter={() => setIsMouseEnter(true)}
+          onMouseLeave={() => setIsMouseEnter(false)}
+        >
+          <div
+            className={`${imageOrientation === "landscape" ? "bg-contain" : "bg-cover"} w-full h-full bg-center bg-no-repeat absolute top-0 right-0 `}
+            style={{
+              backgroundImage: `url(${video?.thumbnail})`,
+            }}
+          />
+          {isMouseEnter && (
+            <video
+              src={video?.videoUrl}
+              className="absolute right-0"
+              autoPlay
+              muted
+              loop
+            />
+          )}
+        </div>
+        <div>{children}</div>
+      </CardContent>
+    </Card>
   );
 }

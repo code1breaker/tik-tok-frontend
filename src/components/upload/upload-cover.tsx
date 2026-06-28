@@ -11,7 +11,7 @@ import {
 } from "../ui/dialog";
 import SelectCover from "./select-cover";
 import { useAppDispatch, useAppSelector } from "@/src/hooks/store";
-import { setUploadForm } from "@/src/lib/store/uploadSlice";
+import { setUploadForm } from "@/src/lib/store/upload-slice";
 
 export default function UploadCover() {
   const [poster, setPoster] = useState("");

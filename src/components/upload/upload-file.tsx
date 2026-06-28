@@ -6,7 +6,7 @@ import {
   setProgress,
   setUploadedFile,
   setUploadForm,
-} from "@/src/lib/store/uploadSlice";
+} from "@/src/lib/store/upload-slice";
 import { toast } from "sonner";
 import * as uploadApi from "@/src/services/upload/upload.client";
 import {

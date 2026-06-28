@@ -1,9 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/src/hooks/store";
-import { Button } from "../ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "../ui/card";
-import { Progress } from "../ui/progress";
 import { Field, FieldLabel } from "../ui/field";
-import { resetUpload } from "@/src/lib/store/uploadSlice";
+import { Progress } from "../ui/progress";
 
 export default function UploadFileInfo() {
   const file = useAppSelector((state) => state.upload.file);

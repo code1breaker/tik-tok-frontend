@@ -1,11 +1,25 @@
-import { auth } from "@/src/auth";
-import Feed from "@/src/components/feed";
+import ForYouFeed from "@/src/components/for-you/for-you-feed";
+import * as feedApi from "@/src/services/feed/feed.server";
+
+async function getPostData() {
+  try {
+    const res = await feedApi.feed({
+      limit: 3,
+      page: 1,
+    });
+
+    return res.data?.data;
+  } catch (error) {
+    console.log("Get Post Data Error: ", error);
+    return [];
+  }
+}
 
 export default async function ForyouPage() {
-  const session = await auth();
+  const posts = await getPostData();
   return (
     <div className="w-full h-screen flex justify-center items-center p-8">
-      <Feed />
+      <ForYouFeed posts={posts} />
     </div>
   );
 }

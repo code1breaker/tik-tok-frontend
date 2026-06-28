@@ -147,7 +147,7 @@ export const uploadSlice = createSlice({
       const { interaction, ...restSettings } = settings;
 
       state.form = {
-        postId,
+        postId: state.form.postId || postId,
         details: { ...state.form.details, ...details },
         settings: { ...state.form.settings, ...restSettings },
       };
