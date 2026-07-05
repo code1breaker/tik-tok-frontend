@@ -13,6 +13,22 @@ export interface FeedPropsIf<T> {
   startIndex?: number;
   loadMoreData?: (args: { direction: LoadDirectionIf }) => Promise<void> | void;
   isVolumeEnable?: boolean;
+  showInteraction?: boolean;
+  onCommentClick?: () => void;
 }
 
 export interface FeedItemIf extends PostsResIf {}
+
+export interface FeedContentPropsIf {
+  item: FeedItemIf;
+  showInteraction?: boolean;
+  isActive: boolean;
+  isVolumeEnable: boolean;
+  onCommentClick?: () => void;
+}
+
+export interface FeedInteractionsPropsIf {
+  item: FeedItemIf;
+  className: string;
+  onCommentClick?: () => void;
+}

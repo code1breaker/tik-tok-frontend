@@ -1,12 +1,13 @@
 "use client";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
-import VideoComment from "../video-comment";
-import VideoCreator from "../creator-video/video-creator";
 import { useAppSelector } from "@/src/hooks/store";
+import Comment from "../../common/comment";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
+import VideoCreator from "../creator-video/video-creator";
 
 export default function VideoDetailsTab() {
   const { videos, activeIndex } = useAppSelector((state) => state.videoDetails);
   const currentVideo = videos[activeIndex];
+  const videoId = currentVideo?._id;
   const commentCount = currentVideo?.stats?.comments ?? 0;
 
   if (!videos.length) return;
@@ -17,8 +18,8 @@ export default function VideoDetailsTab() {
           <TabsTrigger value="comments">Comments ({commentCount})</TabsTrigger>
           <TabsTrigger value="creatorVideo">Creator Video</TabsTrigger>
         </TabsList>
-        <TabsContent value="comments" className="overflow-hidden">
-          <VideoComment />
+        <TabsContent value="comments" className="overflow-hidden flex flex-col px-4">
+          <Comment videoId={videoId} />
         </TabsContent>
         <TabsContent value="creatorVideo" className="overflow-hidden">
           <VideoCreator />

@@ -1,33 +1,36 @@
-import { useAppSelector } from "@/src/hooks/store";
+import { useEffect, useRef } from "react";
+import CommentItem from "./item";
 import useInfiniteScroll from "@/src/hooks/use-infinite-scroll";
 import { getPostReplies } from "@/src/services/post/post.client";
-import { useEffect } from "react";
-import VideoCommentItem from "../video-comment/item";
-import {
-  CommentIf,
-  CommentReplyPropsIf,
-} from "@/src/types/components/video-details/video-comment.types";
+import { useAppSelector } from "@/src/hooks/store";
+import { CommentReplyPropsIf } from "@/src/types/components/video-details/video-comment.types";
+import { CommentIf } from "@/src/types/components/common/comment.types";
 
 export default function CommentReply({
   commentId,
   setReply,
 }: CommentReplyPropsIf) {
   const newComment = useAppSelector((state) => state.videoComment.newComment);
+  const scrollRef = useRef(null);
 
   const { data: replies, refresh: refreshReplies } =
     useInfiniteScroll<CommentIf>({
       callback: ({ page = 1, limit = 10 }) =>
         getPostReplies({ commentId, params: { page, limit } }),
+      scrollRef,
     });
 
   useEffect(() => {
-    if (newComment?.parentId) refreshReplies();
+    if (newComment) refreshReplies();
   }, [newComment]);
 
   return (
-    <div>
+    <div
+      ref={scrollRef}
+      className="max-h-[30rem] overflow-auto hide-scrollbar "
+    >
       {replies?.map((item) => (
-        <VideoCommentItem key={item._id} item={item} setReply={setReply} />
+        <CommentItem key={item._id} item={item} setReply={setReply} />
       ))}
     </div>
   );

@@ -1,17 +1,18 @@
 "use client";
 
-import { Card, CardContent } from "@/src/components/ui/card";
 import {
   Carousel,
   type CarouselApi,
   CarouselContent,
-  CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from "@/src/components/ui/carousel";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { FeedItemIf, FeedPropsIf } from "../types/components/common/feed.types";
-import VideoPlayer from "./common/video-player";
+import {
+  FeedItemIf,
+  FeedPropsIf,
+} from "../../../types/components/common/feed.types";
+import FeedContent from "./feed-content";
 
 export default function Feed<T extends FeedItemIf>({
   data,
@@ -19,6 +20,8 @@ export default function Feed<T extends FeedItemIf>({
   startIndex = 0,
   loadMoreData,
   isVolumeEnable = true,
+  showInteraction = true,
+  onCommentClick,
 }: FeedPropsIf<T>) {
   const [api, setApi] = useState<CarouselApi | null>(null);
   const prevLengthRef = useRef(data?.length);
@@ -107,29 +110,13 @@ export default function Feed<T extends FeedItemIf>({
         {data?.map((item, idx) => {
           const isActive = currentIndex === idx;
           return (
-            <CarouselItem key={item._id} className="">
-              <Card className="h-full bg-black p-0">
-                <CardContent className="flex justify-center items-center h-full p-0 relative">
-                  {/* Thumbnail */}
-                  <div
-                    className={`w-full h-full bg-center bg-contain bg-no-repeat absolute top-0 right-0`}
-                    style={{
-                      backgroundImage: `url(${item.thumbnail})`,
-                    }}
-                  />
-                  {/* Video */}
-
-                  {isActive && (
-                    <div className="absolute right-0">
-                      <VideoPlayer
-                        src={item.videoUrl}
-                        isVolumeEnable={isVolumeEnable}
-                      />
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </CarouselItem>
+            <FeedContent
+              item={item}
+              isVolumeEnable={isVolumeEnable}
+              isActive={isActive}
+              showInteraction={showInteraction}
+              onCommentClick={onCommentClick}
+            />
           );
         })}
       </CarouselContent>

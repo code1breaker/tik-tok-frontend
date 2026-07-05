@@ -5,12 +5,14 @@ const useInfiniteScroll = <T,>({
   callback,
   limit = 10,
   deps = [],
+  scrollRef,
 }: UseInfiniteScrollProps<T>) => {
   const [data, setData] = useState<T[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [hasMoreData, setHasMoreData] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState([]);
+  const container = scrollRef?.current ?? globalThis.window;
 
   const fetchData = async ({ page = 1 }) => {
     try {
@@ -45,21 +47,37 @@ const useInfiniteScroll = <T,>({
     loadData();
   };
 
-  const handleScroll = () => {
-    if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+  const handleScroll = (e: Event) => {
+    if (container === window) {
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+        loadMoreData();
+      }
+      return;
+    }
+
+    const { scrollHeight, scrollTop, clientHeight } =
+      e?.target as HTMLDivElement;
+
+    if (clientHeight + scrollTop >= scrollHeight) {
       loadMoreData();
     }
   };
 
   useEffect(() => {
-    document.addEventListener("scroll", handleScroll);
+    container.addEventListener("scroll", handleScroll);
     return () => {
-      document.removeEventListener("scroll", handleScroll);
+      container.removeEventListener("scroll", handleScroll);
     };
-  }, [hasMoreData]);
+  }, [hasMoreData, container]);
 
   useEffect(() => {
     loadData();
+    setData([]);
+    setPageNumber(1);
+    setHasMoreData(true);
+    if (scrollRef?.current) {
+      scrollRef.current.scrollTop = 0;
+    }
   }, [...deps]);
 
   return { data, setData, loading, error, refresh };

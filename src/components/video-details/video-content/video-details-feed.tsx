@@ -15,7 +15,7 @@ import {
 } from "@/src/types/components/video-details/video-content.types";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Feed from "../../feed";
+import Feed from "../../common/feed";
 import VideoVolumeBtn from "./video-volume-btn";
 
 export default function VideoDetailsFeed({
@@ -84,6 +84,7 @@ export default function VideoDetailsFeed({
         onSelect={onSelect}
         loadMoreData={loadMoreVideos}
         isVolumeEnable={isVolumeEnable}
+        showInteraction={false}
       />
 
       <VideoVolumeBtn

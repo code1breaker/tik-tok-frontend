@@ -5,7 +5,7 @@ async function getPostData() {
   try {
     const res = await feedApi.feed({
       limit: 3,
-      page: 1,
+      page: 4,
     });
 
     return res.data?.data;
@@ -18,8 +18,8 @@ async function getPostData() {
 export default async function ForyouPage() {
   const posts = await getPostData();
   return (
-    <div className="w-full h-screen flex justify-center items-center p-8">
+    <>
       <ForYouFeed posts={posts} />
-    </div>
+    </>
   );
 }

@@ -1,5 +1,5 @@
-import { SlidesIf } from "@/src/components/feed";
 import { useCallback, useEffect, useState } from "react";
+import { SlidesIf } from "../types/components/common/feed.types";
 
 interface FeedResponse {
   data?: {
