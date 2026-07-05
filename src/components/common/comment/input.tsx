@@ -6,7 +6,6 @@ import { Button } from "../../ui/button";
 import { HiPaperAirplane } from "react-icons/hi2";
 import { useAppDispatch, useAppSelector } from "@/src/hooks/store";
 import { useEffect, useRef } from "react";
-import { commentFormSchema } from "../../video-details/video-comment/input";
 import z from "zod";
 import { toast } from "sonner";
 import { MESSAGES } from "@/src/constants/messages";
@@ -17,6 +16,10 @@ import {
   AddCommentIf,
   CommentInputPropsIf,
 } from "@/src/types/components/common/comment.types";
+
+export const commentFormSchema = z.object({
+  comment: z.string().trim().min(2, "Comment must be atleast 2 characters"),
+});
 
 export default function CommentInput({
   videoId,
