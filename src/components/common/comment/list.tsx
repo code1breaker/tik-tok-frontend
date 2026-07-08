@@ -9,7 +9,11 @@ export default function CommentList({
   return (
     <div className="flex-1 overflow-auto hide-scrollbar" ref={scrollRef}>
       {comments?.map((comment) => (
-        <CommentItem key={comment?._id} item={comment} setReply={setReply} />
+        <CommentItem
+          key={comment?._id}
+          item={comment}
+          setReply={setReply}
+        />
       ))}
     </div>
   );

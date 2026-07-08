@@ -2,13 +2,15 @@
 import { DEFAULT_PAGE_LIMIT } from "@/src/constants";
 import * as feedApi from "@/src/services/feed/feed.client";
 import { PostsResIf } from "@/src/types/components/video-details/video-content.types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Feed from "../common/feed";
 import ForYouDrawer from "./for-you-drawer";
+import { useAppSelector } from "@/src/hooks/store";
 
 export default function ForYouFeed({ posts }: { posts: PostsResIf[] }) {
   const [videos, setVideos] = useState(posts ?? []);
   const [activeVideoId, setActiveVideoId] = useState(videos[0]?._id);
+  const newComment = useAppSelector((state) => state.videoComment.newComment);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const loadMoreVideos = async ({}: { direction: string }) => {
@@ -38,11 +40,25 @@ export default function ForYouFeed({ posts }: { posts: PostsResIf[] }) {
     setOpenDrawer(!openDrawer);
   };
 
+  useEffect(() => {
+    setVideos((prevVideos) =>
+      prevVideos.map((video) => {
+        if (video._id === newComment.postId) {
+          return {
+            ...video,
+            stats: { ...video.stats, comments: video.stats.comments + 1 },
+          };
+        }
+        return video;
+      }),
+    );
+  }, [newComment]);
+
   return (
     <>
       <div className="w-full h-screen flex justify-center items-center p-8">
         <Feed
-          data={posts}
+          data={videos}
           onSelect={onSelect}
           loadMoreData={loadMoreVideos}
           onCommentClick={handleOpenDrawer}

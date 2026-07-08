@@ -1,3 +1,5 @@
+import { UserIf } from "../../user.types";
+
 export interface VideoContentParamsIf {
   username: string;
   videoId: string;
@@ -7,7 +9,7 @@ export interface GetPostDataArgsIf extends VideoContentParamsIf {}
 
 export interface PostsResIf {
   _id: string;
-  user: string;
+  user: UserIf;
   filename: string;
   duration: number;
   videoUrl: string;
@@ -16,6 +18,7 @@ export interface PostsResIf {
   visibility: "everyone" | "followers" | "private";
   status: "published" | "draft";
   hashtags: string[];
+  isLiked: boolean;
 
   stats: {
     views: number;

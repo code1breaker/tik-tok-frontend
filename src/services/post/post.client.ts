@@ -28,6 +28,10 @@ export interface AddPostCommentsIf {
   postId: string;
 }
 
+export interface LikePostIf {
+  postId: string;
+}
+
 export const createPost = async (body: CreatePostIf) => {
   const res = await api.post(POST_API.POST, body);
   return res;
@@ -60,5 +64,11 @@ export const getPostReplies = async ({
 export const addPostComments = async ({ postId, body }: AddPostCommentsIf) => {
   const endpoint = POST_API.COMMENT + `/${postId}/comments`;
   const res = await api.post(endpoint, body);
+  return res;
+};
+
+export const likePost = async ({ postId }: LikePostIf) => {
+  const endpoint = POST_API.LIKE + `/${postId}/like`;
+  const res = await api.post(endpoint);
   return res;
 };

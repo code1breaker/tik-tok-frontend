@@ -1,21 +1,21 @@
-import { Controller, useForm } from "react-hook-form";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
-import { Field } from "../../ui/field";
-import { Input } from "../../ui/input";
-import { Button } from "../../ui/button";
-import { HiPaperAirplane } from "react-icons/hi2";
-import { useAppDispatch, useAppSelector } from "@/src/hooks/store";
-import { useEffect, useRef } from "react";
-import z from "zod";
-import { toast } from "sonner";
 import { MESSAGES } from "@/src/constants/messages";
-import * as postApi from "@/src/services/post/post.client";
-import { addComment } from "@/src/lib/store/videoCommentSlice";
+import { useAppDispatch } from "@/src/hooks/store";
+import { addComment } from "@/src/lib/store/video-comment-slice";
 import { increaseCommentCount } from "@/src/lib/store/video-details-slice";
+import * as postApi from "@/src/services/post/post.client";
 import {
   AddCommentIf,
   CommentInputPropsIf,
 } from "@/src/types/components/common/comment.types";
+import { useEffect, useRef } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { HiPaperAirplane } from "react-icons/hi2";
+import { toast } from "sonner";
+import z from "zod";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Button } from "../../ui/button";
+import { Field } from "../../ui/field";
+import { Input } from "../../ui/input";
 
 export const commentFormSchema = z.object({
   comment: z.string().trim().min(2, "Comment must be atleast 2 characters"),

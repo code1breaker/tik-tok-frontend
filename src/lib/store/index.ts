@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import uploadReducer from "./upload-slice";
-import videoCommentReducer from "./videoCommentSlice";
+import videoCommentReducer from "./video-comment-slice";
 import videoDetailsReducer from "./video-details-slice";
 
 export const makeStore = () => {

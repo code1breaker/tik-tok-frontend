@@ -25,7 +25,7 @@ export default function Comment({ videoId }: CommentPropsIf) {
     });
 
   useEffect(() => {
-    if (!newComment?.parentId) refreshComments();
+    if (newComment) refreshComments();  
   }, [newComment]);
 
   return (

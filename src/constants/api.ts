@@ -24,6 +24,7 @@ export const UPLOAD_API = {
 
 export const POST_API = {
   POST: "/api/posts",
+  LIKE: "/api/posts",
   COMMENT: "/api/posts",
 };
 

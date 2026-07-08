@@ -111,6 +111,7 @@ export default function Feed<T extends FeedItemIf>({
           const isActive = currentIndex === idx;
           return (
             <FeedContent
+              key={item._id}
               item={item}
               isVolumeEnable={isVolumeEnable}
               isActive={isActive}

@@ -3,8 +3,10 @@ import CommentItem from "./item";
 import useInfiniteScroll from "@/src/hooks/use-infinite-scroll";
 import { getPostReplies } from "@/src/services/post/post.client";
 import { useAppSelector } from "@/src/hooks/store";
-import { CommentReplyPropsIf } from "@/src/types/components/video-details/video-comment.types";
-import { CommentIf } from "@/src/types/components/common/comment.types";
+import {
+  CommentIf,
+  CommentReplyPropsIf,
+} from "@/src/types/components/common/comment.types";
 
 export default function CommentReply({
   commentId,
@@ -21,7 +23,9 @@ export default function CommentReply({
     });
 
   useEffect(() => {
-    if (newComment) refreshReplies();
+    if (newComment) {
+      refreshReplies();
+    }
   }, [newComment]);
 
   return (
