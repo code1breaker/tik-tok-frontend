@@ -18,8 +18,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         };
       }
 
-      // 🔹 If token still valid → return it
-      if (Date.now() < token.expiresAt) {
+      // ✅ If token still valid → return it
+      // ⌛ Buffer of 1 min to prevent edge cases race cndition
+      if (Date.now() + 60000 < token.expiresAt) {
         return token;
       }
 

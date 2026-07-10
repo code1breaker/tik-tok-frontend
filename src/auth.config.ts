@@ -8,31 +8,35 @@ const authConfig = {
   providers: [
     Credentials({
       async authorize(credentials) {
-        const { identifier, password } = credentials || {};
-        const url = env.API_BASE_URL + "/api/auth/login";
-        const res = await axios.post(url, { identifier, password });
+        try {
+          const { identifier, password } = credentials || {};
+          const url = env.API_BASE_URL + "/api/auth/login";
+          const res = await axios.post(url, { identifier, password });
 
-        const {
-          _id,
-          fullname,
-          username,
-          email,
-          photoUrl,
-          accessToken,
-          refreshToken,
-          expiresIn,
-        } = res.data?.data;
+          const {
+            _id,
+            fullname,
+            username,
+            email,
+            photoUrl,
+            accessToken,
+            refreshToken,
+            expiresIn,
+          } = res.data?.data;
 
-        return {
-          _id,
-          fullname,
-          username,
-          email,
-          photoUrl,
-          accessToken,
-          refreshToken,
-          expiresAt: Date.now() + expiresIn,
-        };
+          return {
+            _id,
+            fullname,
+            username,
+            email,
+            photoUrl,
+            accessToken,
+            refreshToken,
+            expiresAt: Date.now() + expiresIn, // ⌛ in ms
+          };
+        } catch (error) {
+          return null;
+        }
       },
     }),
   ],
