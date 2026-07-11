@@ -1,14 +1,34 @@
 import { FilterTy } from "../components/profile.types";
 export interface GetProfileByUsernameIf {
-  username: string | number;
+  username: string;
 }
 
-export interface GetUserPostsIf {
+export interface GetUserVideosIf {
+  username: string;
+  sort: FilterTy;
+  page: number;
+  limit: number;
+}
+
+export interface GetUserVideosByIdIf {
+  username: string;
+  videoId: string;
+}
+
+export interface GetUserVideosByDirectionIf {
+  username: string;
+  direction: string;
+  videoId: string;
+  page?: number;
+  limit: number;
+}
+
+export interface VideosIf {
   username: string;
   sort?: FilterTy;
   page?: number;
   limit?: number;
-  postId?: string;
+  videoId?: string;
   direction?: "prev" | "next";
 }
 

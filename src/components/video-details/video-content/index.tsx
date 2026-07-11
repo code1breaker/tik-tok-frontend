@@ -1,8 +1,8 @@
 import { DEFAULT_PAGE_LIMIT } from "@/src/constants";
 import * as userApi from "@/src/services/user/user.server";
 import {
-  GetPostDataArgsIf,
-  PostsResIf,
+  GetVideoDataArgsIf,
+  VideosResIf,
   VideoContentParamsIf,
 } from "@/src/types/components/video-details/video-content.types";
 import VideoCloseBtn from "./video-close-btn";
@@ -15,40 +15,40 @@ export default async function VideoContent({
 }) {
   const { username, videoId } = params;
   const [current, prev, next] = await Promise.all([
-    getCurrentPostData({ username, videoId }),
-    getPrevPostData({ username, videoId }),
-    getNextPostData({ username, videoId }),
+    getCurrentVideoData({ username, videoId }),
+    getPrevVideoData({ username, videoId }),
+    getNextVideoData({ username, videoId }),
   ]);
 
-  const posts: PostsResIf[] = [...prev, current, ...next];
-  const startIndex = posts.findIndex((post) => post._id === videoId);
+  const videos: VideosResIf[] = [...prev, current, ...next];
+  const startIndex = videos.findIndex((video) => video._id === videoId);
 
   return (
     <div className="w-full h-screen flex justify-center items-center py-8 relative">
       <VideoCloseBtn />
-      <VideoDetailsFeed posts={posts} startIndex={startIndex} />
+      <VideoDetailsFeed videos={videos} startIndex={startIndex} />
     </div>
   );
 }
 
-async function getCurrentPostData({ username, videoId }: GetPostDataArgsIf) {
+async function getCurrentVideoData({ username, videoId }: GetVideoDataArgsIf) {
   try {
-    const res = await userApi.getUserPostsById({
+    const res = await userApi.getUserVideosById({
       username,
-      postId: videoId,
+      videoId,
     });
 
     return res.data?.data;
   } catch (error) {
-    console.log("Get Current Post Data Error: ", error);
+    console.log("Get Current Video Data Error: ", error);
     return {};
   }
 }
 
-async function getPrevPostData({ username, videoId }: GetPostDataArgsIf) {
+async function getPrevVideoData({ username, videoId }: GetVideoDataArgsIf) {
   try {
-    const res = await userApi.getUserPostsByDirection({
-      postId: videoId,
+    const res = await userApi.getUserVideosByDirection({
+      videoId,
       username,
       direction: "prev",
       limit: DEFAULT_PAGE_LIMIT,
@@ -56,15 +56,15 @@ async function getPrevPostData({ username, videoId }: GetPostDataArgsIf) {
 
     return res.data?.data;
   } catch (error) {
-    console.log("Get Prev Post Data Error: ", error);
+    console.log("Get Prev Video Data Error: ", error);
     return [];
   }
 }
 
-async function getNextPostData({ username, videoId }: GetPostDataArgsIf) {
+async function getNextVideoData({ username, videoId }: GetVideoDataArgsIf) {
   try {
-    const res = await userApi.getUserPostsByDirection({
-      postId: videoId,
+    const res = await userApi.getUserVideosByDirection({
+      videoId,
       username,
       direction: "next",
       limit: DEFAULT_PAGE_LIMIT,
@@ -72,7 +72,7 @@ async function getNextPostData({ username, videoId }: GetPostDataArgsIf) {
 
     return res.data?.data;
   } catch (error) {
-    console.log("Get Next Post Data Error: ", error);
+    console.log("Get Next Video Data Error: ", error);
     return [];
   }
 }

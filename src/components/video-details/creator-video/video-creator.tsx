@@ -6,7 +6,7 @@ import {
   prependVideos,
 } from "@/src/lib/store/video-details-slice";
 import * as userApi from "@/src/services/user/user.client";
-import { PostsResIf } from "@/src/types/components/video-details/video-content.types";
+import { VideosResIf } from "@/src/types/components/video-details/video-content.types";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import VideoCard from "../../profile/profile-content/video-card";
@@ -49,16 +49,16 @@ export default function VideoCreator() {
 
       const direction = isAtTop ? "prev" : isAtBottom ? "next" : "next";
 
-      const postId =
+      const videoId =
         direction === "prev" ? videos[0]._id : videos[videos.length - 1]?._id;
 
-      const res = await userApi.getUserPostsByDirection({
+      const res = await userApi.getUserVideosByDirection({
         direction,
         username,
-        postId,
+        videoId,
         limit: DEFAULT_PAGE_LIMIT,
       });
-      const moreVideos = (res.data?.data ?? []) as PostsResIf[];
+      const moreVideos = (res.data?.data ?? []) as VideosResIf[];
       if (moreVideos?.length !== DEFAULT_PAGE_LIMIT) {
         isAtBottom && setHasMoreNextData(false);
         isAtTop && setHasMorePrevData(false);

@@ -2,7 +2,7 @@ import { MESSAGES } from "@/src/constants/messages";
 import { useAppDispatch } from "@/src/hooks/store";
 import { addComment } from "@/src/lib/store/video-comment-slice";
 import { increaseCommentCount } from "@/src/lib/store/video-details-slice";
-import * as postApi from "@/src/services/post/post.client";
+import * as videoApi from "@/src/services/video/video.client";
 import {
   AddCommentIf,
   CommentInputPropsIf,
@@ -55,8 +55,8 @@ export default function CommentInput({
         replyParentId: reply?._id,
       };
 
-      const res = await postApi.addPostComments({
-        postId: videoId,
+      const res = await videoApi.addVideoComments({
+        videoId,
         body,
       });
       dispatch(addComment(res?.data?.data));

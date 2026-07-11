@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import CommentItem from "./item";
 import useInfiniteScroll from "@/src/hooks/use-infinite-scroll";
-import { getPostReplies } from "@/src/services/post/post.client";
+import { getVideoReplies } from "@/src/services/video/video.client";
 import { useAppSelector } from "@/src/hooks/store";
 import {
   CommentIf,
@@ -18,7 +18,7 @@ export default function CommentReply({
   const { data: replies, refresh: refreshReplies } =
     useInfiniteScroll<CommentIf>({
       callback: ({ page = 1, limit = 10 }) =>
-        getPostReplies({ commentId, params: { page, limit } }),
+        getVideoReplies({ commentId, params: { page, limit } }),
       scrollRef,
     });
 

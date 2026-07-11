@@ -3,7 +3,7 @@ import convertUrlToFile from "@/src/helpers/upload/convertUrlToFile";
 import { useAppDispatch, useAppSelector } from "@/src/hooks/store";
 import { resetUpload } from "@/src/lib/store/upload-slice";
 import * as uploadApi from "@/src/services/upload/upload.client";
-import * as postApi from "@/src/services/post/post.client";
+import * as videoApi from "@/src/services/video/video.client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
@@ -20,7 +20,7 @@ export default function UploadFormAction() {
 
   const isPostNow = form.settings.postTiming === "now";
   const {
-    postId,
+    videoId,
     details: { description, coverImgUrl },
     settings: { interaction, visibility },
   } = form;
@@ -58,9 +58,9 @@ export default function UploadFormAction() {
         // interaction,
       };
 
-      const response = await postApi.updatePost({
+      const response = await videoApi.updateVideo({
         body: uploadBody,
-        postId,
+        videoId,
       });
 
       toast.success("Video uploaded successfully");
@@ -91,7 +91,7 @@ export default function UploadFormAction() {
       dispatch(resetUpload());
       const res = await uploadApi.deleteVideo(body);
 
-      toast.error("Discard post successfully");
+      toast.error("Discard video successfully");
     } catch (error: any) {
       console.log("Discard Error: ", error);
       toast.error(

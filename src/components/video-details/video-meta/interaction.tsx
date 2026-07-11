@@ -2,7 +2,7 @@
 import { MESSAGES } from "@/src/constants/messages";
 import copyToClipboard from "@/src/helpers/copyToClipboard";
 import { useAppSelector } from "@/src/hooks/store";
-import * as postApi from "@/src/services/post/post.client";
+import * as videoApi from "@/src/services/video/video.client";
 import { startTransition, useEffect, useOptimistic, useState } from "react";
 import { BiSolidMessage } from "react-icons/bi";
 import { FaHeart } from "react-icons/fa";
@@ -15,25 +15,25 @@ export default function VideoInteraction() {
   const { videos, activeIndex } = useAppSelector((state) => state.videoDetails);
   const currentVideo = videos[activeIndex];
 
-  const [post, setPost] = useState({
+  const [video, setVideo] = useState({
     isLiked: false,
     likesCount: 0,
   });
 
-  const [optimisticPost, setOptimisticPost] = useOptimistic(post);
+  const [optimisticVideo, setOptimisticVideo] = useOptimistic(video);
 
   const handleLikeClick = async () => {
     startTransition(async () => {
       try {
         const next = {
-          isLiked: !optimisticPost.isLiked,
+          isLiked: !optimisticVideo.isLiked,
           likesCount:
-            optimisticPost.likesCount + (optimisticPost.isLiked ? -1 : 1),
+            optimisticVideo.likesCount + (optimisticVideo.isLiked ? -1 : 1),
         };
 
-        setOptimisticPost(next);
-        await postApi.likePost({ postId: currentVideo?._id });
-        setPost(next);
+        setOptimisticVideo(next);
+        await videoApi.likeVideo({ videoId: currentVideo?._id });
+        setVideo(next);
       } catch (error: any) {
         console.log("Error in like api", error);
         toast.error(
@@ -50,7 +50,7 @@ export default function VideoInteraction() {
 
   useEffect(() => {
     if (!currentVideo) return;
-    setPost({
+    setVideo({
       isLiked: currentVideo?.isLiked,
       likesCount: currentVideo?.stats.likes,
     });
@@ -65,10 +65,10 @@ export default function VideoInteraction() {
       <div className="flex gap-5">
         <div className="flex gap-2 items-center">
           <FaHeart
-            className={`text-2xl text-muted-foreground cursor-pointer ${optimisticPost.isLiked ? "text-primary" : ""}`}
+            className={`text-2xl text-muted-foreground cursor-pointer ${optimisticVideo.isLiked ? "text-primary" : ""}`}
             onClick={handleLikeClick}
           />
-          <p className="text-muted-foreground">{optimisticPost.likesCount}</p>
+          <p className="text-muted-foreground">{optimisticVideo.likesCount}</p>
         </div>
         <div className="flex gap-2 items-center">
           <BiSolidMessage />

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import CommentList from "./list";
 import useInfiniteScroll from "@/src/hooks/use-infinite-scroll";
 import { DEFAULT_PAGE_LIMIT } from "@/src/constants";
-import { getPostComments } from "@/src/services/post/post.client";
+import { getVideoComments } from "@/src/services/video/video.client";
 import CommentInput from "./input";
 import { useAppSelector } from "@/src/hooks/store";
 import {
@@ -19,13 +19,13 @@ export default function Comment({ videoId }: CommentPropsIf) {
   const { data: comments, refresh: refreshComments } =
     useInfiniteScroll<CommentIf>({
       callback: ({ page = 1, limit = DEFAULT_PAGE_LIMIT }) =>
-        getPostComments({ postId: videoId, params: { page, limit } }),
+        getVideoComments({ videoId: videoId, params: { page, limit } }),
       deps: [videoId],
       scrollRef,
     });
 
   useEffect(() => {
-    if (newComment) refreshComments();  
+    if (newComment) refreshComments();
   }, [newComment]);
 
   return (

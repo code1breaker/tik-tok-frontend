@@ -1,7 +1,7 @@
 import ForYouFeed from "@/src/components/for-you/for-you-feed";
 import * as feedApi from "@/src/services/feed/feed.server";
 
-async function getPostData() {
+async function getVideoData() {
   try {
     const res = await feedApi.feed({
       limit: 3,
@@ -10,16 +10,16 @@ async function getPostData() {
 
     return res.data?.data;
   } catch (error) {
-    console.log("Get Post Data Error: ", error);
+    console.log("Get Video Data Error: ", error);
     return [];
   }
 }
 
 export default async function ForyouPage() {
-  const posts = await getPostData();
+  const videos = await getVideoData();
   return (
     <>
-      <ForYouFeed posts={posts} />
+      <ForYouFeed videos={videos} />
     </>
   );
 }

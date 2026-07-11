@@ -1,7 +1,7 @@
 "use client";
 
 import { MESSAGES } from "@/src/constants/messages";
-import * as postApi from "@/src/services/post/post.client";
+import * as videoApi from "@/src/services/video/video.client";
 import { FeedInteractionsPropsIf } from "@/src/types/components/common/feed.types";
 import { PlusIcon } from "lucide-react";
 import { startTransition, useOptimistic, useState } from "react";
@@ -43,25 +43,25 @@ export default function FeedInteractions({
   className,
   onCommentClick,
 }: FeedInteractionsPropsIf) {
-  const [post, setPost] = useState({
+  const [video, setVideo] = useState({
     isLiked: item.isLiked,
     likesCount: item.stats.likes,
   });
-  const [optimisticPost, setOptimisticPost] = useOptimistic(post);
+  const [optimisticVideo, setOptimisticVideo] = useOptimistic(video);
   const shareUrl = `${env.APP_BASE_URL}/@${item.user?.username}/video/${item._id}`;
 
   const handleLikeClick = async () => {
     startTransition(async () => {
       try {
         const next = {
-          isLiked: !optimisticPost.isLiked,
+          isLiked: !optimisticVideo.isLiked,
           likesCount:
-            optimisticPost.likesCount + (optimisticPost.isLiked ? -1 : 1),
+            optimisticVideo.likesCount + (optimisticVideo.isLiked ? -1 : 1),
         };
 
-        setOptimisticPost(next);
-        await postApi.likePost({ postId: item?._id });
-        setPost(next);
+        setOptimisticVideo(next);
+        await videoApi.likeVideo({ videoId: item?._id });
+        setVideo(next);
       } catch (error: any) {
         console.log("Error in like api", error);
         toast.error(
@@ -94,11 +94,11 @@ export default function FeedInteractions({
 
       <div>
         <FaHeart
-          className={`text-2xl text-muted-foreground cursor-pointer ${optimisticPost?.isLiked ? "text-primary" : ""}`}
+          className={`text-2xl text-muted-foreground cursor-pointer ${optimisticVideo?.isLiked ? "text-primary" : ""}`}
           onClick={handleLikeClick}
         />
         <p className="text-md text-muted-foreground">
-          {optimisticPost.likesCount}
+          {optimisticVideo.likesCount}
         </p>
       </div>
 

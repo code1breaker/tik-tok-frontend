@@ -1,4 +1,4 @@
-import { PostsResIf } from "../video-details/video-content.types";
+import { VideosResIf } from "../video-details/video-content.types";
 
 export interface SlidesIf {
   _id: string;
@@ -17,7 +17,7 @@ export interface FeedPropsIf<T> {
   onCommentClick?: () => void;
 }
 
-export interface FeedItemIf extends PostsResIf {}
+export interface FeedItemIf extends VideosResIf {}
 
 export interface FeedContentPropsIf {
   item: FeedItemIf;

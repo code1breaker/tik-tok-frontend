@@ -10,5 +10,5 @@ export interface UseInfiniteScrollProps<T> {
   }) => Promise<Record<string, any>>;
   limit?: number;
   deps?: any[];
-  scrollRef: RefObject<HTMLDivElement | null>;
+  scrollRef?: RefObject<HTMLDivElement | null>;
 }

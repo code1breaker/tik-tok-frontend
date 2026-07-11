@@ -5,7 +5,7 @@ export interface CommentIf {
   _id: string;
   message: string;
   userId: UserIf;
-  postId: string;
+  videoId: string;
   replyCount: number;
   parentId?: string;
   createdAt?: string;

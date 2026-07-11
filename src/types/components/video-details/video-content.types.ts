@@ -5,9 +5,9 @@ export interface VideoContentParamsIf {
   videoId: string;
 }
 
-export interface GetPostDataArgsIf extends VideoContentParamsIf {}
+export interface GetVideoDataArgsIf extends VideoContentParamsIf {}
 
-export interface PostsResIf {
+export interface VideosResIf {
   _id: string;
   user: UserIf;
   filename: string;
@@ -35,6 +35,6 @@ export interface PostsResIf {
 export type LoadDirectionIf = "prev" | "next";
 
 export interface VideoDetailsFeedPropsIf {
-  posts: PostsResIf[];
+  videos: VideosResIf[];
   startIndex: number;
 }

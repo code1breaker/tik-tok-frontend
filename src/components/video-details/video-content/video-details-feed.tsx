@@ -10,7 +10,7 @@ import {
 import * as userApi from "@/src/services/user/user.client";
 import {
   LoadDirectionIf,
-  PostsResIf,
+  VideosResIf,
   VideoDetailsFeedPropsIf,
 } from "@/src/types/components/video-details/video-content.types";
 import { useParams } from "next/navigation";
@@ -19,18 +19,18 @@ import Feed from "../../common/feed";
 import VideoVolumeBtn from "./video-volume-btn";
 
 export default function VideoDetailsFeed({
-  posts,
+  videos,
   startIndex = 0,
 }: VideoDetailsFeedPropsIf) {
   const dispatch = useAppDispatch();
   const params = useParams();
-  const videos = useAppSelector((state) => state.videoDetails.videos);
+  const videosData = useAppSelector((state) => state.videoDetails.videos);
   const [isVolumeEnable, setIsVolumeEnable] = useState(false);
 
   useEffect(() => {
-    dispatch(setVideos(posts));
+    dispatch(setVideos(videos));
     dispatch(setActiveIndex(startIndex));
-  }, [dispatch, posts]);
+  }, [dispatch, videos]);
 
   const username = params.username as string;
 
@@ -40,17 +40,17 @@ export default function VideoDetailsFeed({
     direction: LoadDirectionIf;
   }) => {
     try {
-      if (!videos.length) return;
-      const postId =
-        direction === "prev" ? videos[0]._id : videos[videos.length - 1]?._id;
+      if (!videosData.length) return;
+      const videoId =
+        direction === "prev" ? videosData[0]._id : videosData[videosData.length - 1]?._id;
 
-      const res = await userApi.getUserPostsByDirection({
+      const res = await userApi.getUserVideosByDirection({
         direction,
         username,
-        postId,
+        videoId,
         limit: DEFAULT_PAGE_LIMIT,
       });
-      const moreVideos = (res.data?.data ?? []) as PostsResIf[];
+      const moreVideos = (res.data?.data ?? []) as VideosResIf[];
 
       if (direction === "prev") {
         dispatch(prependVideos(moreVideos));

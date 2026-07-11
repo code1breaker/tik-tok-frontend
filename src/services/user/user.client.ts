@@ -3,7 +3,9 @@ import api from "../../lib/api/client-api";
 import {
   FollowUserIf,
   GetProfileByUsernameIf,
-  GetUserPostsIf,
+  GetUserVideosByDirectionIf,
+  GetUserVideosByIdIf,
+  GetUserVideosIf,
 } from "@/src/types/services/user.types";
 
 export const getProfileByUsername = async (args: GetProfileByUsernameIf) => {
@@ -13,26 +15,26 @@ export const getProfileByUsername = async (args: GetProfileByUsernameIf) => {
   return res;
 };
 
-export const getUserPosts = async (args: GetUserPostsIf) => {
+export const getUserVideos = async (args: GetUserVideosIf) => {
   const { username, sort, page, limit } = args;
   const params = { sort, page, limit };
-  const url = `${USER_API.POST}/${username}/posts`;
+  const url = `${USER_API.VIDEO}/${username}/videos`;
   const res = await api.get(url, { params });
   return res;
 };
 
-export const getFollowers = async (args: GetUserPostsIf) => {
+export const getFollowers = async (args: GetUserVideosIf) => {
   const { username, page, limit } = args;
   const params = { page, limit };
-  const url = `${USER_API.POST}/${username}/followers`;
+  const url = `${USER_API.VIDEO}/${username}/followers`;
   const res = await api.get(url, { params });
   return res;
 };
 
-export const getFollowing = async (args: GetUserPostsIf) => {
+export const getFollowing = async (args: GetUserVideosIf) => {
   const { username } = args;
   const params = {};
-  const url = `${USER_API.POST}/${username}/following`;
+  const url = `${USER_API.VIDEO}/${username}/following`;
   const res = await api.get(url, { params });
   return res;
 };
@@ -51,17 +53,19 @@ export const unFollowUser = async (args: FollowUserIf) => {
   return res;
 };
 
-export const getUserPostsById = async (args: GetUserPostsIf) => {
-  const { username, postId } = args;
-  const url = `${USER_API.POST}/${username}/posts/${postId}`;
+export const getUserVideosById = async (args: GetUserVideosByIdIf) => {
+  const { username, videoId } = args;
+  const url = `${USER_API.VIDEO}/${username}/videos/${videoId}`;
   const res = await api.get(url);
   return res;
 };
 
-export const getUserPostsByDirection = async (args: GetUserPostsIf) => {
-  const { username, direction, postId, page, limit } = args;
+export const getUserVideosByDirection = async (
+  args: GetUserVideosByDirectionIf,
+) => {
+  const { username, direction, videoId, page, limit } = args;
   const params = { page, limit };
-  const url = `${USER_API.POST}/${username}/posts/${postId}/${direction}`;
+  const url = `${USER_API.VIDEO}/${username}/videos/${videoId}/${direction}`;
   const res = await api.get(url, { params });
   return res;
 };

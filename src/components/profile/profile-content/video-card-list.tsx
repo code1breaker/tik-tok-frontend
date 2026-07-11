@@ -1,6 +1,6 @@
 "use client";
 import useInfiniteScroll from "@/src/hooks/use-infinite-scroll";
-import { getUserPosts } from "@/src/services/user/user.client";
+import { getUserVideos } from "@/src/services/user/user.client";
 import {
   FilterTy,
   VideoCardItemIf,
@@ -8,13 +8,14 @@ import {
 import { useParams } from "next/navigation";
 import { ReactNode } from "react";
 import VideoNotFound from "./video-not-found";
+import { DEFAULT_PAGE_LIMIT } from "@/src/constants";
 
 export default function VideoCardList({
   filter,
   className,
   renderItem,
 }: {
-  filter?: FilterTy;
+  filter: FilterTy;
   className?: string;
   renderItem: (props: {
     video: VideoCardItemIf;
@@ -25,8 +26,8 @@ export default function VideoCardList({
   const username = params.username as string;
 
   const { data: videos, loading } = useInfiniteScroll<VideoCardItemIf>({
-    callback: ({ page = 1, limit = 10 }) =>
-      getUserPosts({
+    callback: ({ page = 1, limit = DEFAULT_PAGE_LIMIT }) =>
+      getUserVideos({
         username,
         sort: filter,
         page,

@@ -23,7 +23,7 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 import UploadFooter from "./upload-footer";
 import { useAppDispatch } from "@/src/hooks/store";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import * as postApi from "@/src/services/post/post.client";
+import * as videoApi from "@/src/services/video/video.client";
 
 export default function UploadFile({}) {
   const dispatch = useAppDispatch();
@@ -57,14 +57,14 @@ export default function UploadFile({}) {
 
       dispatch(setUploadedFile(uploadedRes?.data));
 
-      const postBody = {
+      const videoBody = {
         filename: file.name,
         duration: uploadedRes.data?.duration,
         url: uploadedRes.data?.url,
       };
-      const response = await postApi.createPost(postBody);
+      const response = await videoApi.createVideo(videoBody);
 
-      dispatch(setUploadForm({ postId: response.data?.data?._id }));
+      dispatch(setUploadForm({ videoId: response.data?.data?._id }));
 
       toast.success("Video uploaded successfully");
     } catch (error: any) {

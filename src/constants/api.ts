@@ -13,7 +13,7 @@ export const FEED_API = {
 
 export const USER_API = {
   USER: "/api/users",
-  POST: "/api/users",
+  VIDEO: "/api/users",
   FOLLOW: "/api/users",
 };
 
@@ -22,10 +22,10 @@ export const UPLOAD_API = {
   DELETE_VIDEO: "/api/uploads/delete",
 };
 
-export const POST_API = {
-  POST: "/api/posts",
-  LIKE: "/api/posts",
-  COMMENT: "/api/posts",
+export const VIDEO_API = {
+  VIDEO: "/api/videos",
+  LIKE: "/api/videos",
+  COMMENT: "/api/videos",
 };
 
 export const COMMENT_API = {
