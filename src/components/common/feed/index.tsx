@@ -19,14 +19,17 @@ export default function Feed<T extends FeedItemIf>({
   onSelect,
   startIndex = 0,
   loadMoreData,
-  isVolumeEnable = true,
+  showVolumeBtn = false,
   showInteraction = true,
   onCommentClick,
+  enableLoadMorePreviousData = true,
+  enableLoadMoreNextData = true,
 }: FeedPropsIf<T>) {
   const [api, setApi] = useState<CarouselApi | null>(null);
   const prevLengthRef = useRef(data?.length);
   const isLoadingRef = useRef(false);
   const [currentIndex, setCurrentIndex] = useState(startIndex);
+  const [isVolumeEnable, setIsVolumeEnable] = useState(false);
 
   const handleSelect = () => {
     if (!api) return;
@@ -42,7 +45,7 @@ export default function Feed<T extends FeedItemIf>({
     const lastIndex = api.scrollSnapList().length - 1;
     const selectedIndex = api.selectedScrollSnap();
 
-    if (selectedIndex === firstIndex) {
+    if (enableLoadMorePreviousData && selectedIndex === firstIndex) {
       isLoadingRef.current = true;
       try {
         await loadMoreData({ direction: "prev" });
@@ -52,7 +55,7 @@ export default function Feed<T extends FeedItemIf>({
       return;
     }
 
-    if (selectedIndex === lastIndex) {
+    if (enableLoadMoreNextData && selectedIndex === lastIndex) {
       isLoadingRef.current = true;
       try {
         await loadMoreData({ direction: "next" });
@@ -101,6 +104,7 @@ export default function Feed<T extends FeedItemIf>({
         startIndex,
         duration: 35,
         watchSlides: true,
+        watchDrag: false,
       }}
       setApi={setApi}
       className="w-full h-full"
@@ -113,7 +117,9 @@ export default function Feed<T extends FeedItemIf>({
             <FeedContent
               key={item._id}
               item={item}
+              showVolumeBtn={showVolumeBtn}
               isVolumeEnable={isVolumeEnable}
+              setIsVolumeEnable={setIsVolumeEnable}
               isActive={isActive}
               showInteraction={showInteraction}
               onCommentClick={onCommentClick}

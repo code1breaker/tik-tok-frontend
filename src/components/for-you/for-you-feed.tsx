@@ -1,27 +1,30 @@
 "use client";
 import { DEFAULT_PAGE_LIMIT } from "@/src/constants";
+import { useAppSelector } from "@/src/hooks/store";
 import * as feedApi from "@/src/services/feed/feed.client";
 import { VideosResIf } from "@/src/types/components/video-details/video-content.types";
 import { useEffect, useState } from "react";
 import Feed from "../common/feed";
 import ForYouDrawer from "./for-you-drawer";
-import { useAppSelector } from "@/src/hooks/store";
 
 export default function ForYouFeed({ videos }: { videos: VideosResIf[] }) {
   const [data, setData] = useState(videos ?? []);
   const [activeVideoId, setActiveVideoId] = useState(data[0]?._id);
+  const [page, setPage] = useState(1);
   const newComment = useAppSelector((state) => state.videoComment.newComment);
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const loadMoreVideos = async ({}: { direction: string }) => {
+  const loadMoreVideos = async () => {
     try {
       if (!data.length) return;
+      const nextPage = page + 1;
       const res = await feedApi.feed({
         limit: DEFAULT_PAGE_LIMIT,
-        page: 1,
+        page: nextPage,
       });
-      const nextVideos = res.data?.data ?? [];
 
+      const nextVideos = res.data?.data ?? [];
+      setPage(nextPage);
       setData((prevData) => {
         return [...prevData, ...nextVideos];
       });
@@ -60,7 +63,9 @@ export default function ForYouFeed({ videos }: { videos: VideosResIf[] }) {
         <Feed
           data={data}
           onSelect={onSelect}
+          showVolumeBtn={true}
           loadMoreData={loadMoreVideos}
+          enableLoadMorePreviousData={false}
           onCommentClick={handleOpenDrawer}
         />
       </div>

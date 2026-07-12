@@ -4,11 +4,14 @@ import { CarouselItem } from "../../ui/carousel";
 import FeedInteractions from "./feed-interactions";
 import { FeedContentPropsIf } from "@/src/types/components/common/feed.types";
 import VideoPlayer from "../video-player";
+import VideoVolumeBtn from "../../video-details/video-content/video-volume-btn";
 
 export default function FeedContent({
   item,
   isActive,
   isVolumeEnable,
+  setIsVolumeEnable,
+  showVolumeBtn,
   showInteraction,
   onCommentClick,
 }: FeedContentPropsIf) {
@@ -19,12 +22,22 @@ export default function FeedContent({
     <CarouselItem className="h-full flex gap-4">
       <Card className="w-full h-full bg-black p-0">
         <CardContent className="flex justify-center items-center h-full p-0 relative">
+          {/* Volume */}
+          {showVolumeBtn && (
+            <VideoVolumeBtn
+              isVolumeEnable={isVolumeEnable}
+              onToggleVolume={() => setIsVolumeEnable((prev) => !prev)}
+              className="top-5 left-5 z-50"
+            />
+          )}
+
           {/* Thumbnail */}
           <div
             className={`w-full h-full bg-center bg-contain bg-no-repeat absolute top-0 right-0 ${imageOrientation === "landscape" ? "bg-contain" : "bg-cover"} `}
             style={{
               backgroundImage: `url(${item.thumbnail})`,
             }}
+            draggable={false}
           />
 
           {/* Video */}

@@ -42,7 +42,9 @@ export default function VideoDetailsFeed({
     try {
       if (!videosData.length) return;
       const videoId =
-        direction === "prev" ? videosData[0]._id : videosData[videosData.length - 1]?._id;
+        direction === "prev"
+          ? videosData[0]._id
+          : videosData[videosData.length - 1]?._id;
 
       const res = await userApi.getUserVideosByDirection({
         direction,
@@ -90,6 +92,7 @@ export default function VideoDetailsFeed({
       <VideoVolumeBtn
         isVolumeEnable={isVolumeEnable}
         onToggleVolume={() => setIsVolumeEnable((prev) => !prev)}
+        className="bottom-5 right-5"
       />
     </>
   );
